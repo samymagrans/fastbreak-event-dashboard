@@ -1,4 +1,0 @@
-{
-  "/events/[id]/edit/page": "app/events/[id]/edit/page.js",
-  "/page": "app/page.js"
-}
