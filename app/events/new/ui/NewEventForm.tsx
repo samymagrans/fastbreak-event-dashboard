@@ -25,9 +25,16 @@ export function NewEventForm({ venues }: Props) {
   const [newVenue, setNewVenue] = useState("");
 
   const form = useForm<EventInput>({
-    resolver: zodResolver(eventSchema),
-    defaultValues: { name: "", sport: "", datetime: "", description: "", venues: [] },
-  });
+  resolver: zodResolver(eventSchema),
+  defaultValues: {
+    name: "",
+    sport: "",
+    datetime: "",
+    description: "",
+    venues: [],
+  },
+});
+
 
   // 🔔 Event creation feedback
   useEffect(() => {
