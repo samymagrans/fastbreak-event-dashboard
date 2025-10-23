@@ -8,6 +8,8 @@ out/
 dist/
 .vercel/
 *.log
+node_modules/
+
 
 # Env files
 .env.local
