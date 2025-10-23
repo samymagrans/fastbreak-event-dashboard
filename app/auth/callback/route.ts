@@ -7,10 +7,10 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
 
   if (code) {
+    // ✅ Pass the function itself (NOT awaited)
     const supabase = createRouteHandlerClient({ cookies });
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  // Redirect to your dashboard after successful login
   return NextResponse.redirect(new URL("/", request.url));
 }
