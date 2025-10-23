@@ -25,7 +25,14 @@ export default async function EditEventPage({
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">✏️ Edit Event</h1>
 
-      <form action={updateEventAction} className="space-y-4">
+      <form
+        action={async (formData) => {
+            "use server";
+            await updateEventAction(formData);
+        }}
+        className="space-y-4"
+        >
+
   {/* hidden ID input */}
   <input type="hidden" name="id" value={id} />
 
