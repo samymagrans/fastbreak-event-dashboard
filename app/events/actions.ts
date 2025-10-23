@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getServerSupabase } from "@/lib/supabaseServer";
 import { eventSchema } from "@/lib/validation";
 import { safeAction, type ActionResult } from "@/lib/action-helpers";
+import { redirect } from "next/navigation";
 
 /**
  * Fetch all venues (deduplicated + alphabetically sorted)
@@ -92,7 +93,7 @@ export async function createEventAction(_: any, formData: FormData): Promise<Act
  */
 export async function updateEventAction(
   formData: FormData
-): Promise<ActionResult<null>> {
+): Promise<ActionResult<void>> {
   return safeAction(async () => {
     const id = String(formData.get("id") ?? "").trim();
     if (!id) throw new Error("Event ID missing");
@@ -120,7 +121,6 @@ export async function updateEventAction(
 
     if (updateErr) throw new Error(updateErr.message);
 
-    // refresh event_venues links if you have them
     await supabase.from("event_venues").delete().eq("event_id", id);
 
     for (const venueName of parsed.venues ?? []) {
@@ -138,6 +138,7 @@ export async function updateEventAction(
     redirect("/");
   });
 }
+
 
 /**
  * Delete event
