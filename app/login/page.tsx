@@ -32,8 +32,7 @@ export default function LoginPage() {
 
   async function handleGoogle() {
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      (typeof window !== "undefined" ? window.location.origin : "");
+      process.env.NEXT_PUBLIC_SITE_URL;
 
     console.log("🌐 Redirecting to:", `${siteUrl}/auth/callback`);
 
