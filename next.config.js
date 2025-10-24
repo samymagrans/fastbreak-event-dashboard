@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: {
+      bodySizeLimit: '2mb',   // optional default
+    },
   },
-  output: "standalone",
+  output: 'standalone',
   reactStrictMode: true,
 };
 
