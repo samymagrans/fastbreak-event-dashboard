@@ -1,4 +1,6 @@
+// /app/page.tsx
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getServerSupabase } from "@/lib/supabaseServer";
 import FormattedDate from "@/components/FormattedDate";
 import { deleteEventAction } from "@/app/events/actions";
@@ -8,14 +10,25 @@ export default async function Dashboard({
 }: {
   searchParams: Promise<{ q?: string; sport?: string }>;
 }) {
+  // ✅ Create Supabase client
   const supabase = await getServerSupabase();
 
-  // ✅ Await searchParams (Next.js 15 requirement)
+  // ✅ Check if user is logged in
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    // 🚫 Redirect logged-out users
+    redirect("/login");
+  }
+
+  // ✅ Continue existing dashboard logic
   const params = await searchParams;
   const q = (params.q ?? "").trim();
   const sport = (params.sport ?? "").trim();
 
-  // ✅ Fetch events
   let query = supabase
     .from("events")
     .select("id,name,sport,datetime,description,event_venues(venues(name))")
