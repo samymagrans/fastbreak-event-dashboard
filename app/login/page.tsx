@@ -69,11 +69,13 @@ export default function LoginPage() {
       </form>
 
       <button
+        type="button"  // ✅ prevent form submission
         onClick={handleGoogle}
         className="mt-3 w-full border py-2 rounded hover:bg-gray-100"
       >
         Continue with Google
       </button>
+
     </main>
   );
 }
