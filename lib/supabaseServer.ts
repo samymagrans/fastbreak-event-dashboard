@@ -14,11 +14,19 @@ export async function getServerSupabase() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set() {
-          // no-op for now — Next.js App Router doesn’t allow setting cookies here
+        set(name: string, value: string, options: any) {
+          try {
+            cookieStore.set({ name, value, ...options });
+          } catch (err) {
+            console.warn("Could not set cookie:", err);
+          }
         },
-        remove() {
-          // no-op for now
+        remove(name: string, options: any) {
+          try {
+            cookieStore.set({ name, value: "", ...options });
+          } catch (err) {
+            console.warn("Could not remove cookie:", err);
+          }
         },
       },
     }

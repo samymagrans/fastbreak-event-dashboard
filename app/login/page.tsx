@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 
@@ -8,13 +8,15 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // ✅ use createBrowserClient (better cookie handling in SSR setups)
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  const supabase = useMemo(
+    () =>
+      createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      ),
+    []
   );
 
-  // ✅ Redirect already logged-in users away from login
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) router.push("/");
@@ -30,7 +32,8 @@ export default function LoginPage() {
 
   async function handleGoogle() {
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof window !== "undefined" ? window.location.origin : "");
 
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -43,7 +46,6 @@ export default function LoginPage() {
   return (
     <main className="p-8 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-
       <form onSubmit={handleEmailLogin} className="space-y-3">
         <input
           type="email"
@@ -63,7 +65,6 @@ export default function LoginPage() {
           Login
         </button>
       </form>
-
       <button
         onClick={handleGoogle}
         className="mt-3 w-full border py-2 rounded hover:bg-gray-100"
