@@ -35,7 +35,7 @@ export default function LoginPage() {
     process.env.NEXT_PUBLIC_SITE_URL ||
     (typeof window !== "undefined" ? window.location.origin : "");
 
-  console.log("OAuth redirect →", `${siteUrl}/auth/callback`);
+  console.log("Redirecting to:", `${siteUrl}/auth/callback`);
 
   await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -44,6 +44,7 @@ export default function LoginPage() {
     },
   });
 }
+
 
 
   return (
