@@ -1,7 +1,6 @@
-// /app/login/page.tsx
 "use client";
-import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
+import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -9,10 +8,18 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const supabase = createClient(
+  // ✅ use createBrowserClient (better cookie handling in SSR setups)
+  const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+
+  // ✅ Redirect already logged-in users away from login
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.push("/");
+    });
+  }, [router, supabase]);
 
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -22,15 +29,21 @@ export default function LoginPage() {
   }
 
   async function handleGoogle() {
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` },
+      options: {
+        redirectTo: `${siteUrl}/auth/callback`,
+      },
     });
   }
 
   return (
     <main className="p-8 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+
       <form onSubmit={handleEmailLogin} className="space-y-3">
         <input
           type="email"
@@ -50,6 +63,7 @@ export default function LoginPage() {
           Login
         </button>
       </form>
+
       <button
         onClick={handleGoogle}
         className="mt-3 w-full border py-2 rounded hover:bg-gray-100"
