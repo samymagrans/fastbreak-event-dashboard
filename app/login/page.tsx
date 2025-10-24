@@ -1,3 +1,4 @@
+// /app/login/page.tsx
 "use client";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -23,7 +24,7 @@ export default function LoginPage() {
   async function handleGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` },
     });
   }
 
