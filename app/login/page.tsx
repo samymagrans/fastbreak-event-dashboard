@@ -31,20 +31,20 @@ export default function LoginPage() {
   }
 
   async function handleGoogle() {
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      (typeof window !== "undefined" ? window.location.origin : "");
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (typeof window !== "undefined" ? window.location.origin : "");
 
-        console.log("🪄 OAuth redirect URL:", `${siteUrl}/auth/callback`);
+  console.log("OAuth redirect →", `${siteUrl}/auth/callback`);
 
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${siteUrl}/auth/callback`,
+    },
+  });
+}
 
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${siteUrl}/auth/callback`,
-      },
-    });
-  }
 
   return (
     <main className="p-8 max-w-md mx-auto">
