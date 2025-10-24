@@ -3,7 +3,7 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  output: "standalone", // ✅ ensures server rendering instead of static export
+  output: "standalone",
   reactStrictMode: true,
 };
 
