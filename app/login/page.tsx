@@ -35,6 +35,9 @@ export default function LoginPage() {
       process.env.NEXT_PUBLIC_SITE_URL ||
       (typeof window !== "undefined" ? window.location.origin : "");
 
+        console.log("🪄 OAuth redirect URL:", `${siteUrl}/auth/callback`);
+
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
