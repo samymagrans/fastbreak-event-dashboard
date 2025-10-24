@@ -31,25 +31,24 @@ export default function LoginPage() {
   }
 
   async function handleGoogle() {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (typeof window !== "undefined" ? window.location.origin : "");
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof window !== "undefined" ? window.location.origin : "");
 
-  console.log("Redirecting to:", `${siteUrl}/auth/callback`);
+    console.log("🌐 Redirecting to:", `${siteUrl}/auth/callback`);
 
-  await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${siteUrl}/auth/callback`,
-    },
-  });
-}
-
-
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${siteUrl}/auth/callback`,
+      },
+    });
+  }
 
   return (
     <main className="p-8 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+
       <form onSubmit={handleEmailLogin} className="space-y-3">
         <input
           type="email"
@@ -69,6 +68,7 @@ export default function LoginPage() {
           Login
         </button>
       </form>
+
       <button
         onClick={handleGoogle}
         className="mt-3 w-full border py-2 rounded hover:bg-gray-100"
