@@ -1,9 +1,9 @@
-// lib/supabaseServer.ts
-import { cookies } from "next/headers";
+// /lib/supabaseServer.ts
 import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
 export async function getServerSupabase() {
-  // ✅ Await cookies() because it's now async in Next.js 15
+  // ✅ In Next 15, cookies() is async
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -12,8 +12,13 @@ export async function getServerSupabase() {
     {
       cookies: {
         get(name: string) {
-          // safely return the cookie value
           return cookieStore.get(name)?.value;
+        },
+        set() {
+          // no-op for now — Next.js App Router doesn’t allow setting cookies here
+        },
+        remove() {
+          // no-op for now
         },
       },
     }
