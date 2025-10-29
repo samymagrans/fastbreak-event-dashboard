@@ -46,7 +46,7 @@ export function NewEventForm({ venues }: Props) {
     if (addState.message) addState.ok ? toast.success("Venue added") : toast.error(addState.message);
   }, [addState]);
 
-  // ✅ Create event
+  // Create event
   const onSubmit = (values: EventInput) => {
   const fd = new FormData();
   fd.set("name", values.name);

@@ -7,7 +7,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegister, setIsRegister] = useState(false); // ✅ toggle between login/register
+  const [isRegister, setIsRegister] = useState(false); // toggle between login/register
 
   const supabase = useMemo(
     () =>
@@ -18,14 +18,14 @@ export default function LoginPage() {
     []
   );
 
-  // ✅ Redirect to home if already logged in
+  // Redirect to home if already logged in
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) router.push("/");
     });
   }, [router, supabase]);
 
-  // ✅ Login or Register with email/password
+  // Login or Register with email/password
   async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
 
@@ -48,7 +48,7 @@ export default function LoginPage() {
     }
   }
 
-  // ✅ Google login
+  // Google login
   async function handleGoogle() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     await supabase.auth.signInWithOAuth({

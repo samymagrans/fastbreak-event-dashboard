@@ -4,7 +4,7 @@ import { getVenues } from "../actions";
 import { NewEventForm } from "./ui/NewEventForm";
 
 export default async function NewEventPage() {
-  // ✅ Fetch all venues server-side (no client Supabase calls)
+  // Fetch all venues server-side (no client Supabase calls)
   const venues = await getVenues();
 
   return (
@@ -19,7 +19,7 @@ export default async function NewEventPage() {
         </Link>
       </header>
 
-      {/* ✅ Client form (uses shadcn Form + react-hook-form + zod) */}
+      {/* Client form (uses shadcn Form + react-hook-form + zod) */}
       <NewEventForm venues={venues} />
     </div>
   );

@@ -7,11 +7,11 @@ export const eventSchema = z.object({
   description: z
     .string()
     .optional()
-    .transform((val) => val ?? ""), // ✅ input can be undefined, but output always string
+    .transform((val) => val ?? ""),
   venues: z
     .array(z.string())
     .optional()
-    .transform((val) => val ?? []), // ✅ same idea for arrays
+    .transform((val) => val ?? []), 
 });
 
 

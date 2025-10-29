@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
-  // ✅ Always await cookies() in Next.js 15
+  // Always await cookies() in Next.js 15
   const cookieStore = await cookies();
 
   const supabase = createServerClient(
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     }
   );
 
-  // ✅ Extract the ?code=... from the URL
+  // Extract the ?code=... from the URL
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
 
@@ -41,14 +41,14 @@ export async function GET(request: Request) {
     console.log("exchangeCodeForSession result:", result);
 
     if (result.error) {
-      console.error("❌ Auth exchange failed:", result.error.message);
+      console.error(" Auth exchange failed:", result.error.message);
       return NextResponse.redirect(new URL("/login", request.url));
     }
   } else {
-    console.error("❌ No code parameter in callback URL");
+    console.error("No code parameter in callback URL");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // ✅ Redirect to home after successful exchange
+  // Redirect to home after successful exchange
   return NextResponse.redirect(new URL("/", request.url));
 }

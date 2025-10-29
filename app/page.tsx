@@ -10,21 +10,21 @@ export default async function Dashboard({
 }: {
   searchParams: Promise<{ q?: string; sport?: string }>;
 }) {
-  // ✅ Create Supabase client
+  //Create Supabase client
   const supabase = await getServerSupabase();
 
-  // ✅ Check if user is logged in
+  //Check if user is logged in
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    // 🚫 Redirect logged-out users
+    // Redirect logged-out users
     redirect("/login");
   }
 
-  // ✅ Continue existing dashboard logic
+  //  Continue existing dashboard logic
   const params = await searchParams;
   const q = (params.q ?? "").trim();
   const sport = (params.sport ?? "").trim();
